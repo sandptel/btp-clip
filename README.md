@@ -24,3 +24,10 @@ System Integration:
 Properly handles system signals
 Runs as a proper daemon with PID file
 Cross-platform compatibility
+
+
+
+## Adapters
+1. Google Sheets
+2. Personal Databases
+3. A computer with internet

@@ -457,3 +457,69 @@
 2025-04-29 10:17:27,465 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
 2025-04-29 10:18:42,776 - ClipboardDaemon - INFO - Received termination signal
 2025-04-29 10:18:42,776 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:41:47,456 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:41:47,457 - ClipboardDaemon - INFO - Starting clipboard daemon on system default
+2025-04-29 10:41:47,457 - ClipboardDaemon - INFO - Starting local clipboard monitoring
+2025-04-29 10:41:47,457 - ClipboardDaemon - INFO - Starting cloud clipboard monitoring
+2025-04-29 10:41:47,459 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:47,459 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:47,596 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:52,188 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:53,660 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:53,662 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:55,361 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:59,361 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:59,366 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:41:59,562 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:03,555 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:04,952 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:04,957 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:10,626 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:10,654 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:16,362 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:16,365 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:22,095 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:22,102 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:28,137 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:28,142 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:33,875 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:33,880 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:39,606 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:39,611 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:42:40,725 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:42:40,725 - ClipboardDaemon - INFO - Stopping daemon
+2025-04-29 10:45:01,855 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:45:01,855 - ClipboardDaemon - INFO - Starting clipboard daemon on system default
+2025-04-29 10:45:01,857 - ClipboardDaemon - INFO - Initial local clipboard content length: 8298
+2025-04-29 10:45:01,858 - ClipboardDaemon - INFO - Starting clipboard monitoring
+2025-04-29 10:45:15,731 - ClipboardDaemon - INFO - Local clipboard changed (length: 92)
+2025-04-29 10:45:27,610 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 10:45:39,996 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 10:45:44,353 - ClipboardDaemon - INFO - Local clipboard changed (length: 7)
+2025-04-29 10:46:51,717 - ClipboardDaemon - INFO - Local clipboard changed (length: 799)
+2025-04-29 10:47:11,989 - ClipboardDaemon - INFO - Local clipboard changed (length: 30)
+2025-04-29 10:47:18,115 - ClipboardDaemon - INFO - Local clipboard changed (length: 7)
+2025-04-29 10:47:23,457 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 10:48:08,757 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:48:08,757 - ClipboardDaemon - INFO - Stopping daemon
+2025-04-29 10:57:35,055 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:57:35,055 - ClipboardDaemon - INFO - Starting clipboard daemon on system default
+2025-04-29 10:57:35,057 - ClipboardDaemon - INFO - Initial local clipboard content length: 0
+2025-04-29 10:57:35,057 - ClipboardDaemon - INFO - Starting clipboard monitoring
+2025-04-29 10:58:38,594 - ClipboardDaemon - INFO - Local clipboard changed (length: 12)
+2025-04-29 10:58:48,361 - ClipboardDaemon - INFO - Local clipboard changed (length: 78)
+2025-04-29 10:59:02,409 - ClipboardDaemon - INFO - Local clipboard changed (length: 14)
+2025-04-29 11:01:59,591 - ClipboardDaemon - INFO - Local clipboard changed (length: 79)
+2025-04-29 11:02:08,156 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 11:02:12,319 - ClipboardDaemon - INFO - Local clipboard changed (length: 7)
+2025-04-29 11:05:08,061 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 11:05:08,061 - ClipboardDaemon - INFO - Stopping daemon
+2025-04-29 13:59:43,740 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 13:59:43,741 - ClipboardDaemon - INFO - Starting clipboard daemon on system default
+2025-04-29 13:59:43,743 - ClipboardDaemon - INFO - Initial local clipboard content length: 0
+2025-04-29 13:59:43,743 - ClipboardDaemon - INFO - Starting clipboard monitoring
+2025-04-29 14:00:03,174 - ClipboardDaemon - INFO - Local clipboard changed (length: 27)
+2025-04-29 14:00:14,769 - ClipboardDaemon - INFO - Local clipboard changed (length: 5)
+2025-04-29 14:00:26,828 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 14:00:54,154 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 14:00:54,155 - ClipboardDaemon - INFO - Stopping daemon
