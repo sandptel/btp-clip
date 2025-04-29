@@ -1,0 +1,10 @@
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+token.json
+credentials.json
+# pre-commit
+.pre-commit-config.yaml
