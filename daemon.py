@@ -9,6 +9,10 @@ import logging
 import platform
 import threading
 import pyperclip
+import backoff
+import socket
+from google.auth.exceptions import TransportError
+from googleapiclient.errors import HttpError
 
 # Import functions from initialization.py
 from initialization import (
@@ -28,6 +32,51 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger('ClipboardDaemon')
+
+def is_connection_error(exception):
+    """Check if the exception is related to connection issues."""
+    if isinstance(exception, (socket.error, ConnectionError, TransportError)):
+        return True
+    if isinstance(exception, HttpError) and exception.resp.status in (500, 502, 503, 504):
+        return True
+    if isinstance(exception, Exception) and "SSL" in str(exception):
+        return True
+    return False
+
+@backoff.on_exception(backoff.expo, 
+                     Exception,
+                     max_tries=5,
+                     giveup=lambda e: not is_connection_error(e))
+def upload_to_sheets_with_retry(content, timestamp, system_info):
+    """Upload clipboard to sheets with retry logic."""
+    try:
+        # Refresh credentials if needed
+        from initialization import get_credentials
+        get_credentials()  # This will refresh if expired
+        
+        # Now try to add the clipboard entry
+        add_clipboard_entry(content, timestamp, system_info)
+        return True
+    except Exception as e:
+        logger.error(f"Error in upload attempt: {e}")
+        raise
+
+@backoff.on_exception(backoff.expo, 
+                     Exception,
+                     max_tries=5,
+                     giveup=lambda e: not is_connection_error(e))
+def get_cloud_clipboard_with_retry():
+    """Get cloud clipboard with retry logic."""
+    from initialization import sheets_service, spreadsheet_id, get_credentials
+    
+    # Refresh credentials if needed
+    get_credentials()
+    
+    # Get the latest entry
+    range_name = "Sheet1!A2:A2"  # Cell A2 (first data row)
+    result = sheets_service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id, range=range_name).execute()
+    return result.get('values', [])
 
 class ClipboardDaemon:
     def __init__(self, config_path=None):
@@ -159,13 +208,13 @@ class ClipboardDaemon:
                         
                         # Upload to Google Sheets
                         try:
-                            add_clipboard_entry(current_clipboard, timestamp, system_info)
+                            upload_to_sheets_with_retry(current_clipboard, timestamp, system_info)
                             logger.info("Uploaded clipboard content to Google Sheets")
                             
                             # Update last cloud clipboard
                             self.last_cloud_clipboard = current_clipboard
                         except Exception as e:
-                            logger.error(f"Failed to upload clipboard to Google Sheets: {e}")
+                            logger.error(f"Failed to upload clipboard to Google Sheets after retries: {e}")
                     
                     # Update last local clipboard
                     self.last_local_clipboard = current_clipboard
@@ -182,18 +231,7 @@ class ClipboardDaemon:
         while self.running:
             try:
                 # Get the latest clipboard entry from Google Sheets
-                from initialization import sheets_service, spreadsheet_id
-                
-                if not sheets_service or not spreadsheet_id:
-                    logger.error("Google Sheets service not initialized")
-                    time.sleep(interval)
-                    continue
-                
-                # Get the latest entry (row 2)
-                range_name = "Sheet1!A2:A2"  # Cell A2 (first data row)
-                result = sheets_service.spreadsheets().values().get(
-                    spreadsheetId=spreadsheet_id, range=range_name).execute()
-                values = result.get('values', [])
+                values = get_cloud_clipboard_with_retry()
                 
                 if values and values[0]:
                     cloud_clipboard = values[0][0]
