@@ -227,12 +227,17 @@ class ClipboardDaemon:
                 logger.error(f"Error in cloud clipboard monitor: {e}")
                 time.sleep(interval)
 
-
+def signal_handler(sig, frame):
+    """Handle termination signals."""
+    logger.info("Received termination signal")
+    if daemon:
+        daemon.stop()
+    sys.exit(0)
 
 if __name__ == "__main__":
     # Register signal handlers
-    # signal.signal(signal.SIGINT, signal_handler)
-    # signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
     
     # Create and start daemon
     daemon = ClipboardDaemon()
