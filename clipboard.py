@@ -73,54 +73,150 @@ def get_clipboard_content():
         print(f"Error getting clipboard content: {e}")
         return f"Error accessing clipboard: {str(e)}"
 
+def get_latest_cloud_clipboard():
+    """
+    Get the latest clipboard content from Google Sheets.
+    
+    Returns:
+        tuple: (content, system_id, timestamp) - The latest clipboard content, 
+               the system that updated it, and when it was updated
+    """
+    try:
+        # Make sure service is initialized
+        if not initialization.sheets_service:
+            initialization.initialize_sheets_service()
+        
+        # Make sure spreadsheet ID is loaded
+        if not initialization.spreadsheet_id:
+            initialization.load_spreadsheet_id()
+        
+        # Get the data from the sheet
+        result = initialization.sheets_service.spreadsheets().values().get(
+            spreadsheetId=initialization.spreadsheet_id,
+            range="Sheet1!A:C"
+        ).execute()
+        
+        values = result.get('values', [])
+        
+        if not values or len(values) <= 1:  # Only header row or no data
+            print("No data found in clipboard history.")
+            return "", "", ""
+        
+        # Get the most recent entry (last row)
+        last_row = values[-1]
+        
+        # Extract content and metadata
+        content = last_row[0] if len(last_row) > 0 else ""
+        timestamp = last_row[1] if len(last_row) > 1 else ""
+        system_id = last_row[2] if len(last_row) > 2 else ""
+        
+        print(f"Found latest clipboard entry from system {system_id}")
+        return content, system_id, timestamp
+        
+    except Exception as e:
+        print(f"Error retrieving cloud clipboard: {e}")
+        return "", "", ""
+
+def sync_from_cloud_to_local():
+    """
+    Get the latest clipboard content from Google Sheets and update the system clipboard.
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Initialize services
+        initialization.initialize_sheets_service()
+        initialization.load_spreadsheet_id()
+        
+        # Get the latest clipboard content from the cloud
+        content, system_id, timestamp = get_latest_cloud_clipboard()
+        
+        if not content:
+            print("No clipboard content found in cloud.")
+            return False
+        
+        # Get the current system's ID
+        current_system_id = socket.gethostname()
+        
+        # Only update local clipboard if content is from a different system
+        if system_id == current_system_id:
+            print(f"Latest clipboard content is already from this system ({current_system_id}). No update needed.")
+            return False
+        
+        # Update the local system clipboard
+        pyperclip.copy(content)
+        print(f"Local clipboard updated with content from system {system_id}")
+        print(f"Content length: {len(content)} characters")
+        return True
+        
+    except Exception as e:
+        print(f"Error syncing clipboard from cloud: {e}")
+        return False
+
+def set_clipboard_content(content):
+    """
+    Set system clipboard content.
+    
+    Args:
+        content (str): Content to set in clipboard
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        import pyperclip
+        pyperclip.copy(content)
+        return True
+    except Exception as e:
+        print(f"Error setting clipboard content: {e}")
+        return False
+
 def main():
     """
     Main function to capture clipboard and system info and update Google Sheet.
     """
     try:
-        print("Initializing Google Sheets...")
         # Initialize sheets service
-        initialize_sheets_service()
+        initialization.initialize_sheets_service()
+        initialization.load_spreadsheet_id()
+        initialization.check_and_reset_sheet()
         
-        # Load spreadsheet ID
-        load_spreadsheet_id()
+        # Parse command line arguments
+        import argparse
         
-        # Check and reset sheet if needed
-        check_and_reset_sheet()
+        parser = argparse.ArgumentParser(description='Clipboard Cloud Sync')
+        parser.add_argument('--pull', action='store_true', help='Pull clipboard from cloud to local system')
+        parser.add_argument('--push', action='store_true', help='Push local clipboard to cloud')
         
-        # Get current clipboard content
-        clipboard_content = get_clipboard_content()
-        if not clipboard_content:
-            print("Clipboard is empty. Nothing to save.")
-            return
+        args = parser.parse_args()
         
-        # Get current timestamp
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if args.pull:
+            # Get clipboard from cloud and update local clipboard
+            sync_from_cloud_to_local()
         
-        # Get system information
-        system_info = get_system_info()
+        elif args.push:
+            # Get local clipboard content
+            content = get_clipboard_content()
+            # Get system info
+            system_info = get_system_info()
+            # Get current datetime
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Add entry to Google Sheet
+            initialization.add_clipboard_entry(content, now, system_info)
         
-        # Add entry to spreadsheet
-        print("Saving clipboard content to Google Sheets...")
-        print(f"System info: {system_info}")
-        print(f"Clipboard length: {len(clipboard_content)} characters")
-        print(f"Timestamp: {current_time}")
-        
-        try:
-            add_clipboard_entry(clipboard_content, current_time, system_info)
-            print("Clipboard content saved successfully!")
-        except Exception as e:
-            print(f"Failed to add clipboard entry to Google Sheets: {e}")
-            sys.exit(1)
-        
+        else:
+            print("Please specify --pull or --push")
+    
     except Exception as e:
-        error_message = f"Error in main execution: {e}"
-        print(error_message)
-        
-        # Try to get system information for debugging even if the main flow failed
+        print(f"Error in main function: {e}")
+        # Debug information
+        print("\n=== DEBUG INFO ===")
         try:
-            debug_sys_info = socket.gethostname()
-            print(f"Debug - System hostname: {debug_sys_info}")
+            print(f"Python version: {platform.python_version()}")
+            print(f"System: {platform.system()} {platform.version()}")
+            print(f"Machine: {platform.machine()}")
+            print(f"Hostname: {socket.gethostname()}")
         except Exception as debug_err:
             print(f"Cannot get system info for debugging: {debug_err}")
             

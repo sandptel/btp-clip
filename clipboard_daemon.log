@@ -141,3 +141,319 @@
 2025-04-29 09:41:01,438 - ClipboardDaemon - INFO - Updating local clipboard from cloud
 2025-04-29 09:41:03,008 - ClipboardDaemon - INFO - Received termination signal
 2025-04-29 09:41:03,009 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 09:41:49,833 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:41:49,834 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:41:51,205 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:41:51,205 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:41:51,205 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:41:51,206 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:41:51,206 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:41:51,207 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:41:51,614 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 13)
+2025-04-29 09:41:51,615 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:42:25,525 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 09:42:25,525 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 09:42:47,485 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:42:47,486 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:42:48,650 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:42:48,650 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:42:48,651 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:42:48,651 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:42:48,651 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:42:48,651 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:42:49,164 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 13)
+2025-04-29 09:42:49,164 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:42:56,714 - ClipboardDaemon - INFO - Local clipboard changed (length: 3381)
+2025-04-29 09:42:58,482 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 09:43:00,735 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 13)
+2025-04-29 09:43:00,735 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:43:17,592 - ClipboardDaemon - INFO - Local clipboard changed (length: 21)
+2025-04-29 09:43:17,836 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 0.9s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:43:17,836 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:43:17,837 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 1.0s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:43:38,038 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:43:38,040 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:43:40,978 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:43:40,978 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:43:40,978 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:43:40,979 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:43:40,980 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:43:40,985 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:43:51,073 - ClipboardDaemon - INFO - Local clipboard changed (length: 37)
+2025-04-29 09:43:53,060 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 1.0s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:43:53,061 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:43:53,061 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 0.7s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:44:22,908 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:44:22,909 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:44:24,487 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:44:24,487 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:44:24,487 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:44:24,488 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:44:24,489 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:44:24,489 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:44:24,907 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 37)
+2025-04-29 09:44:29,547 - ClipboardDaemon - INFO - Local clipboard changed (length: 3381)
+2025-04-29 09:44:30,543 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:44:30,544 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 0.4s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:44:30,544 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 0.8s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:49:57,336 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:49:57,477 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:49:58,828 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:49:58,828 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:49:58,829 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:49:58,829 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:49:58,830 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:49:58,831 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:49:59,236 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 37)
+2025-04-29 09:49:59,236 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:49:59,355 - ClipboardDaemon - INFO - Local clipboard updated successfully
+2025-04-29 09:50:13,924 - ClipboardDaemon - INFO - Local clipboard changed (length: 17923)
+2025-04-29 09:50:16,030 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:50:16,030 - ClipboardDaemon - ERROR - Error in get clipboard attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:50:16,031 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 0.9s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:50:16,031 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 0.9s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:50:16,031 - ClipboardDaemon - INFO - Backing off upload_to_sheets_with_retry for 0.9s (attempt 1)
+2025-04-29 09:50:16,031 - ClipboardDaemon - INFO - Backing off get_cloud_clipboard_with_retry for 0.9s (attempt 1)
+2025-04-29 09:50:22,889 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:50:22,889 - ClipboardDaemon - ERROR - Error in get clipboard attempt: [SSL: LENGTH_MISMATCH] length mismatch (_ssl.c:2570)
+2025-04-29 09:50:22,889 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 1.2s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:50:22,890 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 0.5s (ssl.SSLError: [SSL: LENGTH_MISMATCH] length mismatch (_ssl.c:2570))
+2025-04-29 09:50:22,890 - ClipboardDaemon - INFO - Backing off upload_to_sheets_with_retry for 1.2s (attempt 2)
+2025-04-29 09:50:22,890 - ClipboardDaemon - INFO - Backing off get_cloud_clipboard_with_retry for 0.5s (attempt 1)
+2025-04-29 09:50:25,962 - ClipboardDaemon - INFO - Successfully synced clipboard to cloud at 2025-04-29 09:50:25.962401
+2025-04-29 09:50:29,443 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 37)
+2025-04-29 09:50:29,443 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:50:29,554 - ClipboardDaemon - INFO - Local clipboard updated successfully
+2025-04-29 09:50:33,727 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 09:50:33,727 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 09:50:33,727 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 09:50:41,917 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:50:42,057 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:50:44,189 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:50:44,189 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:50:44,189 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:50:44,189 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:50:44,193 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:50:44,193 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:50:54,250 - ClipboardDaemon - INFO - Local clipboard changed (length: 23)
+2025-04-29 09:51:00,572 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:51:00,573 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 0.1s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:51:00,573 - ClipboardDaemon - INFO - Backing off upload_to_sheets_with_retry for 0.1s (attempt 1)
+2025-04-29 09:51:00,573 - ClipboardDaemon - ERROR - Error in get clipboard attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:51:00,574 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 0.1s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:51:00,574 - ClipboardDaemon - INFO - Backing off get_cloud_clipboard_with_retry for 0.1s (attempt 1)
+2025-04-29 09:51:01,699 - ClipboardDaemon - ERROR - Error in upload attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:51:01,700 - backoff - INFO - Backing off upload_to_sheets_with_retry(...) for 0.9s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:51:01,700 - ClipboardDaemon - INFO - Backing off upload_to_sheets_with_retry for 0.9s (attempt 2)
+2025-04-29 09:51:01,700 - ClipboardDaemon - ERROR - Error in get clipboard attempt: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:51:01,701 - backoff - INFO - Backing off get_cloud_clipboard_with_retry(...) for 1.6s (ssl.SSLError: [SSL] record layer failure (_ssl.c:2570))
+2025-04-29 09:51:01,701 - ClipboardDaemon - INFO - Backing off get_cloud_clipboard_with_retry for 1.6s (attempt 2)
+2025-04-29 09:52:12,003 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:52:12,005 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:52:13,145 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:52:13,145 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:52:13,146 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:52:13,146 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:52:13,147 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:52:13,147 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:52:13,533 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 23)
+2025-04-29 09:52:13,533 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:52:24,646 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 09:52:24,648 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 09:52:31,815 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 09:52:31,817 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:52:33,964 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 09:52:33,964 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 09:52:33,965 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 09:52:33,965 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 09:52:33,966 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 09:52:33,971 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 09:52:51,047 - ClipboardDaemon - INFO - Local clipboard changed (length: 59)
+2025-04-29 09:52:52,701 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 09:53:04,766 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:53:06,729 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:53:06,730 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:53:09,747 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:53:11,849 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:53:11,853 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:53:12,856 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:53:14,822 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 09:53:17,276 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 09:53:17,277 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 09:54:43,303 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:54:44,622 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:54:44,623 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:55:16,779 - ClipboardDaemon - INFO - Local clipboard changed (length: 93)
+2025-04-29 09:55:23,125 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:55:23,126 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:55:59,289 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:56:00,912 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: IncompleteRead(137 bytes read)
+2025-04-29 09:56:00,913 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 09:56:03,923 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 09:57:05,999 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: The read operation timed out
+2025-04-29 09:57:05,999 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: Request-sent
+2025-04-29 09:57:09,013 - ClipboardDaemon - INFO - Local clipboard changed (length: 191)
+2025-04-29 10:00:58,292 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:00:58,695 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:01:00,231 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:01:00,231 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:01:00,231 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:01:00,232 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:01:00,233 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:01:00,234 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:01:00,637 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:01:00,637 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:01:12,321 - ClipboardDaemon - INFO - Local clipboard changed (length: 191)
+2025-04-29 10:01:14,155 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:01:17,533 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:01:17,534 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:01:59,376 - ClipboardDaemon - INFO - Local clipboard changed (length: 22)
+2025-04-29 10:02:01,147 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:02:02,045 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:02:02,045 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:02:41,344 - ClipboardDaemon - INFO - Local clipboard changed (length: 9)
+2025-04-29 10:02:43,278 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:02:46,316 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:02:46,316 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:03:32,969 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:03:32,970 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:03:37,368 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:03:37,370 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:03:38,588 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:03:38,588 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:03:38,589 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:03:38,589 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:03:38,590 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:03:38,590 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:03:39,251 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:03:44,664 - ClipboardDaemon - INFO - Local clipboard changed (length: 2403)
+2025-04-29 10:03:50,329 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:03:50,331 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:03:51,442 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:03:51,442 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:03:51,443 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:03:51,443 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:03:51,444 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:03:51,444 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:03:51,852 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:03:51,852 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:03:55,504 - ClipboardDaemon - INFO - Local clipboard changed (length: 218)
+2025-04-29 10:03:57,494 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:03:57,842 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:03:57,843 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:04:11,876 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:04:11,877 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:05:23,645 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:05:23,647 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:05:25,140 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:05:25,140 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:05:25,140 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:05:25,141 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:05:25,141 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:05:25,141 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:05:25,650 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:05:25,650 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:05:36,215 - ClipboardDaemon - INFO - Local clipboard changed (length: 9)
+2025-04-29 10:05:37,325 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:05:37,325 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:06:39,589 - ClipboardDaemon - INFO - Local clipboard changed (length: 43)
+2025-04-29 10:06:41,837 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:06:44,089 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:06:44,089 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:06:45,860 - ClipboardDaemon - INFO - Local clipboard changed (length: 220)
+2025-04-29 10:06:47,878 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:06:50,131 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:06:50,131 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:06:54,907 - ClipboardDaemon - INFO - Local clipboard changed (length: 59)
+2025-04-29 10:07:18,108 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:07:18,110 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:07:19,622 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:07:19,623 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:07:19,623 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:07:19,623 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:07:19,624 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:07:19,625 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:07:20,135 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:07:20,135 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:07:35,735 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 10:07:42,866 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:07:42,867 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:07:43,872 - ClipboardDaemon - INFO - Local clipboard changed (length: 19)
+2025-04-29 10:07:46,144 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:07:48,294 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:07:48,294 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:08:03,231 - ClipboardDaemon - INFO - Local clipboard changed (length: 182)
+2025-04-29 10:08:42,555 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:08:42,556 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:08:45,959 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:08:45,961 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:08:47,157 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:08:47,158 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:08:47,158 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:08:47,158 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:08:47,159 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:08:47,169 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:08:47,570 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:08:47,571 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:08:51,211 - ClipboardDaemon - INFO - Local clipboard changed (length: 22)
+2025-04-29 10:08:53,508 - ClipboardDaemon - ERROR - Error in cloud clipboard monitor: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:08:53,508 - ClipboardDaemon - ERROR - Failed to upload clipboard to Google Sheets: [SSL] record layer failure (_ssl.c:2570)
+2025-04-29 10:08:59,532 - ClipboardDaemon - INFO - Local clipboard changed (length: 15)
+2025-04-29 10:09:01,306 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:09:04,481 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:09:04,481 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:09:05,319 - ClipboardDaemon - INFO - Local clipboard changed (length: 288)
+2025-04-29 10:09:07,092 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:09:10,520 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:09:10,521 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:09:12,106 - ClipboardDaemon - INFO - Local clipboard changed (length: 259)
+2025-04-29 10:09:13,898 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:09:16,510 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:09:16,510 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:09:17,913 - ClipboardDaemon - INFO - Local clipboard changed (length: 304)
+2025-04-29 10:09:19,840 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:09:22,493 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:09:22,494 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:09:35,920 - ClipboardDaemon - INFO - Local clipboard changed (length: 268)
+2025-04-29 10:09:37,761 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:09:38,641 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:09:38,641 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:12:15,851 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:12:15,853 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:12:17,300 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:12:17,300 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:12:17,300 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:12:17,300 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:12:17,301 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:12:17,301 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:12:17,709 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:12:17,709 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:12:25,369 - ClipboardDaemon - INFO - Local clipboard changed (length: 4662)
+2025-04-29 10:12:27,351 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:12:29,281 - ClipboardDaemon - INFO - Cloud clipboard changed (length: 59)
+2025-04-29 10:12:29,281 - ClipboardDaemon - INFO - Updating local clipboard from cloud
+2025-04-29 10:12:51,304 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:12:51,305 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:12:57,967 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:12:57,968 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:13:00,616 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:13:00,616 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:13:00,617 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:13:00,617 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:13:00,618 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:13:00,623 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:13:04,040 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:13:04,040 - ClipboardDaemon - INFO - Stopping clipboard daemon
+2025-04-29 10:17:16,405 - ClipboardDaemon - INFO - System identifier: default-264562640929667
+2025-04-29 10:17:16,406 - ClipboardDaemon - INFO - Loaded configuration from /home/roronoa/Documents/btp-2/settings.json
+2025-04-29 10:17:16,407 - googleapiclient.discovery_cache - INFO - file_cache is only supported with oauth2client<4.0.0
+2025-04-29 10:17:17,941 - ClipboardDaemon - INFO - Google Sheets service initialized successfully
+2025-04-29 10:17:17,941 - ClipboardDaemon - INFO - Starting clipboard daemon
+2025-04-29 10:17:17,942 - ClipboardDaemon - INFO - Starting local clipboard monitor thread
+2025-04-29 10:17:17,942 - ClipboardDaemon - INFO - Local clipboard monitoring started (interval: 1.0s)
+2025-04-29 10:17:17,943 - ClipboardDaemon - INFO - Starting cloud clipboard monitor thread
+2025-04-29 10:17:17,953 - ClipboardDaemon - INFO - Cloud clipboard monitoring started (interval: 5.0s)
+2025-04-29 10:17:25,003 - ClipboardDaemon - INFO - Local clipboard changed (length: 13)
+2025-04-29 10:17:27,465 - ClipboardDaemon - INFO - Uploaded clipboard content to Google Sheets
+2025-04-29 10:18:42,776 - ClipboardDaemon - INFO - Received termination signal
+2025-04-29 10:18:42,776 - ClipboardDaemon - INFO - Stopping clipboard daemon

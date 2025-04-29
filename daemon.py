@@ -9,10 +9,10 @@ import logging
 import platform
 import threading
 import pyperclip
-import backoff
-import socket
-from google.auth.exceptions import TransportError
-from googleapiclient.errors import HttpError
+import traceback
+
+# Add imports for notifications
+from plyer import notification
 
 # Import functions from initialization.py
 from initialization import (
@@ -33,58 +33,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger('ClipboardDaemon')
 
-def is_connection_error(exception):
-    """Check if the exception is related to connection issues."""
-    if isinstance(exception, (socket.error, ConnectionError, TransportError)):
-        return True
-    if isinstance(exception, HttpError) and exception.resp.status in (500, 502, 503, 504):
-        return True
-    if isinstance(exception, Exception) and "SSL" in str(exception):
-        return True
-    return False
-
-@backoff.on_exception(backoff.expo, 
-                     Exception,
-                     max_tries=5,
-                     giveup=lambda e: not is_connection_error(e))
-def upload_to_sheets_with_retry(content, timestamp, system_info):
-    """Upload clipboard to sheets with retry logic."""
-    try:
-        # Refresh credentials if needed
-        from initialization import get_credentials
-        get_credentials()  # This will refresh if expired
-        
-        # Now try to add the clipboard entry
-        add_clipboard_entry(content, timestamp, system_info)
-        return True
-    except Exception as e:
-        logger.error(f"Error in upload attempt: {e}")
-        raise
-
-@backoff.on_exception(backoff.expo, 
-                     Exception,
-                     max_tries=5,
-                     giveup=lambda e: not is_connection_error(e))
-def get_cloud_clipboard_with_retry():
-    """Get cloud clipboard with retry logic."""
-    from initialization import sheets_service, spreadsheet_id, get_credentials
-    
-    # Refresh credentials if needed
-    get_credentials()
-    
-    # Get the latest entry
-    range_name = "Sheet1!A2:A2"  # Cell A2 (first data row)
-    result = sheets_service.spreadsheets().values().get(
-        spreadsheetId=spreadsheet_id, range=range_name).execute()
-    return result.get('values', [])
-
 class ClipboardDaemon:
     def __init__(self, config_path=None):
         """Initialize the clipboard daemon with configuration."""
         self.running = False
         self.last_local_clipboard = ""
         self.last_cloud_clipboard = ""
+        self.last_uploaded_content = ""  # Track what we last uploaded to avoid echo effects
         self.syncing_cloud_to_local = False
+        self.system_id = self._generate_system_id()  # Generate a unique ID for this system
         
         # Load config
         if config_path is None:
@@ -122,7 +79,22 @@ class ClipboardDaemon:
             logger.error(f"Failed to initialize Google Sheets: {e}")
             if self.config.get("daemon", {}).get("sync_clipboard", False):
                 logger.warning("Clipboard sync is enabled but Google Sheets initialization failed")
+            error_msg = f"Failed to initialize Google Sheets service: {str(e)}"
+            logger.error(error_msg)
+            self._send_notification("Clipboard Sync Error", error_msg)
     
+    def _generate_system_id(self):
+        """Generate a unique identifier for this system."""
+        import socket
+        import uuid
+        
+        # Combine hostname and a machine UUID to create a system identifier
+        hostname = socket.gethostname()
+        machine_id = str(uuid.getnode())  # MAC address as integer
+        system_id = f"{hostname}-{machine_id}"
+        logger.info(f"System identifier: {system_id}")
+        return system_id
+
     def start(self):
         """Start the daemon."""
         if self.running:
@@ -208,13 +180,13 @@ class ClipboardDaemon:
                         
                         # Upload to Google Sheets
                         try:
-                            upload_to_sheets_with_retry(current_clipboard, timestamp, system_info)
+                            add_clipboard_entry(current_clipboard, timestamp, system_info)
                             logger.info("Uploaded clipboard content to Google Sheets")
                             
                             # Update last cloud clipboard
                             self.last_cloud_clipboard = current_clipboard
                         except Exception as e:
-                            logger.error(f"Failed to upload clipboard to Google Sheets after retries: {e}")
+                            logger.error(f"Failed to upload clipboard to Google Sheets: {e}")
                     
                     # Update last local clipboard
                     self.last_local_clipboard = current_clipboard
@@ -231,7 +203,18 @@ class ClipboardDaemon:
         while self.running:
             try:
                 # Get the latest clipboard entry from Google Sheets
-                values = get_cloud_clipboard_with_retry()
+                from initialization import sheets_service, spreadsheet_id
+                
+                if not sheets_service or not spreadsheet_id:
+                    logger.error("Google Sheets service not initialized")
+                    time.sleep(interval)
+                    continue
+                
+                # Get the latest entry (row 2)
+                range_name = "Sheet1!A2:A2"  # Cell A2 (first data row)
+                result = sheets_service.spreadsheets().values().get(
+                    spreadsheetId=spreadsheet_id, range=range_name).execute()
+                values = result.get('values', [])
                 
                 if values and values[0]:
                     cloud_clipboard = values[0][0]
@@ -265,6 +248,126 @@ class ClipboardDaemon:
                 logger.error(f"Error in cloud clipboard monitor: {e}")
                 time.sleep(interval)
 
+    def restart_sync(self):
+        """Restart clipboard sync operations after errors"""
+        logger.info("Restarting clipboard sync operations")
+        # Depending on your implementation you might need to:
+        # 1. Reset any sync state/connections
+        # 2. Clear error flags
+        # 3. Re-initialize sync components
+        
+        # Example implementation (modify based on your actual daemon structure):
+        try:
+            # Stop current sync operations if any
+            self._stop_sync_operations()
+            
+            # Reset state
+            self._init_sync_state()
+            
+            # Restart sync operations
+            self._start_sync_operations()
+            
+        except Exception as e:
+            logger.error(f"Failed to restart sync: {str(e)}")
+
+    def _send_notification(self, title, message):
+        """Send a system notification"""
+        try:
+            notification.notify(
+                title=title,
+                message=message,
+                app_name="Clipboard Sync Daemon",
+                timeout=10  # seconds
+            )
+            logger.debug(f"Push notification sent: {title} - {message}")
+        except Exception as e:
+            logger.error(f"Failed to send notification: {str(e)}")
+
+    def _check_cloud_clipboard(self):
+        """Check if cloud clipboard has changed and update local if needed."""
+        try:
+            # Get the latest cloud clipboard content and metadata
+            cloud_content, source_system = self._get_cloud_clipboard_content()
+            
+            # Only process if cloud content is different from what we know
+            # AND it's from a different system (not our own update)
+            if cloud_content != self.last_cloud_clipboard and source_system != self.system_id:
+                logger.info(f"Cloud clipboard changed by system {source_system} (length: {len(cloud_content)})")
+                
+                # Update local clipboard with cloud content
+                if self.config.get("daemon", {}).get("sync_direction") in ["both", "cloud_to_local"]:
+                    logger.info("Updating local clipboard from cloud")
+                    self.syncing_cloud_to_local = True
+                    self._set_local_clipboard(cloud_content)
+                    self.syncing_cloud_to_local = False
+                    
+                # Update our record of the last cloud clipboard
+                self.last_cloud_clipboard = cloud_content
+                
+            return cloud_content
+            
+        except Exception as e:
+            logger.error(f"Error checking cloud clipboard: {str(e)}")
+            return None
+            
+    def _check_local_clipboard(self):
+        """Check if local clipboard has changed and update cloud if needed."""
+        try:
+            # Get current local clipboard content
+            local_content = self._get_local_clipboard_content()
+            
+            # Only proceed if content changed and we're not currently syncing from cloud
+            if local_content != self.last_local_clipboard and not self.syncing_cloud_to_local:
+                logger.info(f"Local clipboard changed (length: {len(local_content)})")
+                
+                # Update cloud clipboard with local content
+                if self.config.get("daemon", {}).get("sync_direction") in ["both", "local_to_cloud"]:
+                    logger.info("Uploading clipboard content to Google Sheets")
+                    self._set_cloud_clipboard(local_content)
+                    self.last_uploaded_content = local_content  # Track what we just uploaded
+                    
+                # Update our record of the last local clipboard
+                self.last_local_clipboard = local_content
+                
+            return local_content
+            
+        except Exception as e:
+            logger.error(f"Error checking local clipboard: {str(e)}")
+            return None
+            
+    def _set_cloud_clipboard(self, content):
+        """Set content to the cloud clipboard (Google Sheets) with system identifier."""
+        try:
+            # Modify your implementation to include the system_id when updating Google Sheet
+            # For example, store both the content and the system_id in different columns
+            # ...
+            
+            # Example implementation:
+            # update_google_sheet(content=content, system_id=self.system_id)
+            
+            # After successful upload, update our tracking variables
+            self.last_cloud_clipboard = content
+            self.last_uploaded_content = content
+            
+        except Exception as e:
+            logger.error(f"Error setting cloud clipboard: {str(e)}")
+            
+    def _get_cloud_clipboard_content(self):
+        """Get clipboard content from Google Sheets with system ID information."""
+        try:
+            # Modify your implementation to retrieve both content and source system ID
+            # ...
+            
+            # Example implementation:
+            # content, source_system = get_google_sheet_data()
+            
+            # Return both the content and the source system ID
+            return content, source_system
+            
+        except Exception as e:
+            logger.error(f"Error getting cloud clipboard content: {str(e)}")
+            return "", ""
+
 def signal_handler(sig, frame):
     """Handle termination signals."""
     logger.info("Received termination signal")
@@ -281,10 +384,28 @@ if __name__ == "__main__":
     daemon = ClipboardDaemon()
     daemon.start()
     
+    # Track consecutive errors
+    consecutive_errors = 0
+    max_consecutive_errors = 2
+    
     try:
         # Keep main thread alive
         while daemon.running:
-            time.sleep(1)
+            try:
+                # If we had consecutive errors and reached threshold, restart sync
+                if consecutive_errors >= max_consecutive_errors:
+                    logger.warning(f"Encountered {consecutive_errors} consecutive sync errors, restarting sync operations")
+                    daemon.restart_sync()
+                    consecutive_errors = 0
+                
+                time.sleep(1)
+                
+            except Exception as e:
+                # Log sync error but don't terminate daemon
+                consecutive_errors += 1
+                logger.error(f"Error during clipboard sync: {str(e)}")
+                logger.debug(f"Error details: {traceback.format_exc()}")
+                
     except KeyboardInterrupt:
         logger.info("Keyboard interrupt received")
         daemon.stop()
