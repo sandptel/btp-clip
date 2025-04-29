@@ -1,4 +1,4 @@
-import os.path
+import os
 import json
 import datetime
 
@@ -8,98 +8,112 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# If modifying these scopes, delete the file token.json.
-# Changed to allow full access to sheets
+# Define global variables
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+CREDENTIALS_FILE = os.path.join(os.path.dirname(__file__), "credentials.json")
+TOKEN_FILE = os.path.join(os.path.dirname(__file__), "token.json")
+SHEETS_CONFIG_FILE = os.path.join(os.path.dirname(__file__), "sheets.json")
 
-# JSON file to store the spreadsheet ID
-SHEETS_CONFIG_FILE = "sheets.json"
-DEFAULT_RANGE_NAME = "Sheet1!A1:Z"
+# Global variables for spreadsheet operations
+spreadsheet_id = None
+sheets_service = None
 
 
 def get_credentials():
-    """Get and return the credentials needed to access the Google Sheets API."""
+    """Get valid credentials for Google Sheets API."""
     creds = None
-    # The file token.json stores the user's access and refresh tokens
-    if os.path.exists("token.json"):
+    if os.path.exists(TOKEN_FILE):
         creds = Credentials.from_authorized_user_info(
-            json.loads(open("token.json").read()), SCOPES
-        )
-    # If there are no (valid) credentials available, let the user log in.
+            json.loads(open(TOKEN_FILE).read()), SCOPES)
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
+        with open(TOKEN_FILE, "w") as token:
             token.write(creds.to_json())
+    
     return creds
 
 
 def load_spreadsheet_id():
     """Load spreadsheet ID from sheets.json if it exists."""
+    global spreadsheet_id
     if os.path.exists(SHEETS_CONFIG_FILE):
         with open(SHEETS_CONFIG_FILE, "r") as f:
             config = json.load(f)
-            return config.get("spreadsheet_id")
-    return None
+            spreadsheet_id = config.get("spreadsheet_id")
+    return spreadsheet_id
 
 
-def save_spreadsheet_id(spreadsheet_id):
+def save_spreadsheet_id():
     """Save spreadsheet ID to sheets.json."""
+    global spreadsheet_id
     with open(SHEETS_CONFIG_FILE, "w") as f:
         json.dump({"spreadsheet_id": spreadsheet_id}, f)
 
 
-def create_new_spreadsheet(service):
+def create_new_spreadsheet():
     """Create a new Google Sheet and return its ID."""
+    global spreadsheet_id, sheets_service
+    
     spreadsheet = {
         'properties': {
-            'title': 'BTP-2 Data Sheet'
-        }
+            'title': 'Clipboard History'
+        },
+        'sheets': [{
+            'properties': {
+                'title': 'Sheet1'
+            }
+        }]
     }
     
-    spreadsheet = service.spreadsheets().create(body=spreadsheet).execute()
-    spreadsheet_id = spreadsheet.get('spreadsheetId')
+    try:
+        spreadsheet_result = sheets_service.spreadsheets().create(body=spreadsheet).execute()
+        spreadsheet_id = spreadsheet_result.get('spreadsheetId')
+        print(f"Created new spreadsheet with ID: {spreadsheet_id}")
+        save_spreadsheet_id()
+        return spreadsheet_id
+    except HttpError as err:
+        print(f"An error occurred while creating spreadsheet: {err}")
+        raise
+
+
+def initialize_sheets_service():
+    """Initialize the Google Sheets service."""
+    global sheets_service
     
-    print(f"Created new spreadsheet with ID: {spreadsheet_id}")
-    return spreadsheet_id
+    creds = get_credentials()
+    sheets_service = build("sheets", "v4", credentials=creds)
+    
+    return sheets_service
 
 
-def check_and_reset_sheet(service, spreadsheet_id):
+def check_and_reset_sheet():
     """
     Checks if the header row contains expected values and resets the sheet if not.
     Expected values: A1="clipboard", B1="date-time", C1="system info"
-    
-    Args:
-        service: Authenticated Google Sheets service object
-        spreadsheet_id: ID of the spreadsheet to check and reset
     """
+    global spreadsheet_id, sheets_service
+    
     try:
         # Check if the spreadsheet exists, if not create it
+        if not spreadsheet_id:
+            load_spreadsheet_id()
+            
+        if not spreadsheet_id:
+            create_new_spreadsheet()
+            
         try:
             # Try to get spreadsheet info to check if it exists
-            service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+            sheets_service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
         except HttpError as err:
             if err.resp.status == 404:
                 # Spreadsheet doesn't exist, create a new one
                 print("Spreadsheet not found. Creating a new spreadsheet...")
-                spreadsheet = {
-                    'properties': {
-                        'title': 'Clipboard History'
-                    },
-                    'sheets': [{
-                        'properties': {
-                            'title': 'Sheet1'
-                        }
-                    }]
-                }
-                spreadsheet = service.spreadsheets().create(body=spreadsheet).execute()
-                spreadsheet_id = spreadsheet.get('spreadsheetId')
-                print(f"Created new spreadsheet with ID: {spreadsheet_id}")
+                create_new_spreadsheet()
             else:
                 raise  # Re-raise if it's not a 404 error
 
@@ -107,7 +121,7 @@ def check_and_reset_sheet(service, spreadsheet_id):
         range_name = "Sheet1!A1:C1"
         
         try:
-            result = service.spreadsheets().values().get(
+            result = sheets_service.spreadsheets().values().get(
                 spreadsheetId=spreadsheet_id, range=range_name).execute()
             values = result.get('values', [])
         except HttpError:
@@ -138,7 +152,7 @@ def check_and_reset_sheet(service, spreadsheet_id):
             # Clear all data from the sheet
             try:
                 clear_range = "Sheet1"
-                service.spreadsheets().values().clear(
+                sheets_service.spreadsheets().values().clear(
                     spreadsheetId=spreadsheet_id, range=clear_range,
                     body={}).execute()
             except HttpError:
@@ -149,34 +163,31 @@ def check_and_reset_sheet(service, spreadsheet_id):
             body = {
                 'values': [['clipboard', 'date-time', 'system info']]
             }
-            service.spreadsheets().values().update(
+            sheets_service.spreadsheets().values().update(
                 spreadsheetId=spreadsheet_id, range="Sheet1!A1:C1",
                 valueInputOption="RAW", body=body).execute()
             
             print("Sheet has been reset with proper headers.")
-            return spreadsheet_id, True  # Return the ID and reset status
+            return True  # Sheet was reset
         else:
             print("Sheet headers are correctly set up.")
-            return spreadsheet_id, False  # Return the ID and reset status
+            return False  # Sheet was not reset
             
     except HttpError as err:
         print(f"An error occurred while checking/resetting sheet: {err}")
         raise
 
 
-def update_clipboard(service, spreadsheet_id, clipboard_content):
+def update_clipboard(clipboard_content):
     """
     Adds new clipboard content in column A below the header row.
-    
-    Args:
-        service: Authenticated Google Sheets service object
-        spreadsheet_id: ID of the spreadsheet
-        clipboard_content: Text content to add to the clipboard column
     """
+    global spreadsheet_id, sheets_service
+    
     try:
         # First, find the first empty row in column A
         range_name = "Sheet1!A:A"
-        result = service.spreadsheets().values().get(
+        result = sheets_service.spreadsheets().values().get(
             spreadsheetId=spreadsheet_id, range=range_name).execute()
         values = result.get('values', [])
         
@@ -188,7 +199,7 @@ def update_clipboard(service, spreadsheet_id, clipboard_content):
             'values': [[clipboard_content]]
         }
         update_range = f"Sheet1!A{next_row}"
-        service.spreadsheets().values().update(
+        sheets_service.spreadsheets().values().update(
             spreadsheetId=spreadsheet_id, range=update_range,
             valueInputOption="RAW", body=body).execute()
         
@@ -200,21 +211,17 @@ def update_clipboard(service, spreadsheet_id, clipboard_content):
         raise
 
 
-def update_datetime(service, spreadsheet_id, datetime_value, row=None):
+def update_datetime(datetime_value, row=None):
     """
     Adds datetime value in column B at the specified row or the first empty row.
-    
-    Args:
-        service: Authenticated Google Sheets service object
-        spreadsheet_id: ID of the spreadsheet
-        datetime_value: Date-time value to add
-        row: Optional row number to update. If None, adds to the first empty row.
     """
+    global spreadsheet_id, sheets_service
+    
     try:
         if row is None:
             # Find the first empty row in column B
             range_name = "Sheet1!B:B"
-            result = service.spreadsheets().values().get(
+            result = sheets_service.spreadsheets().values().get(
                 spreadsheetId=spreadsheet_id, range=range_name).execute()
             values = result.get('values', [])
             
@@ -226,7 +233,7 @@ def update_datetime(service, spreadsheet_id, datetime_value, row=None):
             'values': [[datetime_value]]
         }
         update_range = f"Sheet1!B{row}"
-        service.spreadsheets().values().update(
+        sheets_service.spreadsheets().values().update(
             spreadsheetId=spreadsheet_id, range=update_range,
             valueInputOption="RAW", body=body).execute()
         
@@ -237,21 +244,17 @@ def update_datetime(service, spreadsheet_id, datetime_value, row=None):
         raise
 
 
-def update_sysinfo(service, spreadsheet_id, system_info, row=None):
+def update_sysinfo(system_info, row=None):
     """
     Adds system information in column C at the specified row or the first empty row.
-    
-    Args:
-        service: Authenticated Google Sheets service object
-        spreadsheet_id: ID of the spreadsheet
-        system_info: System information to add
-        row: Optional row number to update. If None, adds to the first empty row.
     """
+    global spreadsheet_id, sheets_service
+    
     try:
         if row is None:
             # Find the first empty row in column C
             range_name = "Sheet1!C:C"
-            result = service.spreadsheets().values().get(
+            result = sheets_service.spreadsheets().values().get(
                 spreadsheetId=spreadsheet_id, range=range_name).execute()
             values = result.get('values', [])
             
@@ -263,7 +266,7 @@ def update_sysinfo(service, spreadsheet_id, system_info, row=None):
             'values': [[system_info]]
         }
         update_range = f"Sheet1!C{row}"
-        service.spreadsheets().values().update(
+        sheets_service.spreadsheets().values().update(
             spreadsheetId=spreadsheet_id, range=update_range,
             valueInputOption="RAW", body=body).execute()
         
@@ -274,16 +277,9 @@ def update_sysinfo(service, spreadsheet_id, system_info, row=None):
         raise
 
 
-def add_clipboard_entry(service, spreadsheet_id, clipboard_content, datetime_value=None, system_info=None):
+def add_clipboard_entry(clipboard_content, datetime_value=None, system_info=None):
     """
     Adds a complete clipboard entry with all associated data across columns A, B, and C.
-    
-    Args:
-        service: Authenticated Google Sheets service object
-        spreadsheet_id: ID of the spreadsheet
-        clipboard_content: Text content to add to the clipboard column
-        datetime_value: Optional date-time value (defaults to current time if None)
-        system_info: Optional system information (defaults to current hostname if None)
     """
     try:
         # Set default values if not provided
@@ -296,11 +292,11 @@ def add_clipboard_entry(service, spreadsheet_id, clipboard_content, datetime_val
             system_info = socket.gethostname()
         
         # Add clipboard content and get the row
-        row = update_clipboard(service, spreadsheet_id, clipboard_content)
+        row = update_clipboard(clipboard_content)
         
         # Add date-time and system info to the same row
-        update_datetime(service, spreadsheet_id, datetime_value, row)
-        update_sysinfo(service, spreadsheet_id, system_info, row)
+        update_datetime(datetime_value, row)
+        update_sysinfo(system_info, row)
         
         print(f"Added complete clipboard entry at row {row}")
         
@@ -310,39 +306,22 @@ def add_clipboard_entry(service, spreadsheet_id, clipboard_content, datetime_val
 
 
 def main():
-    """Connect to Google Sheets API and read/create a spreadsheet."""
+    """Connect to Google Sheets API and manage clipboard data."""
+    global sheets_service, spreadsheet_id
+    
     try:
-        creds = get_credentials()
-        service = build("sheets", "v4", credentials=creds)
+        # Initialize sheets service
+        sheets_service = initialize_sheets_service()
         
-        # Get the spreadsheet ID from sheets.json or create a new one
+        # Load or create spreadsheet
         spreadsheet_id = load_spreadsheet_id()
-        if not spreadsheet_id:
-            spreadsheet_id = create_new_spreadsheet(service)
-            save_spreadsheet_id(spreadsheet_id)
         
-        # Call the updated function to check and reset if needed
-        spreadsheet_id, was_reset = check_and_reset_sheet(service, spreadsheet_id)
+        # Check and reset the sheet if needed
+        check_and_reset_sheet()
         
-        # Example usage of add_clipboard
-        # Uncomment to test:
-        update_clipboard(service, spreadsheet_id, "hello world")
-        update_datetime(service, spreadsheet_id, "2023-10-01 12:00:00")
-        update_sysinfo(service, spreadsheet_id, "System Info Example")
+        # Example usage
+        add_clipboard_entry("Example clipboard content")
         
-        sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=spreadsheet_id,
-                                    range=DEFAULT_RANGE_NAME).execute()
-        values = result.get('values', [])
-
-        if not values:
-            print("No data found.")
-            return
-
-        print("Data from spreadsheet:")
-        for row in values:
-            print(row)
-            
     except HttpError as err:
         print(f"An error occurred: {err}")
 
