@@ -1,0 +1,32 @@
+{
+    "daemon": {
+        "enabled": true,
+        "sync_clipboard": true,
+        "sync_direction": "both",
+        "local_poll_interval": 1.0,
+        "cloud_poll_interval": 5.0,
+        "log_level": "INFO"
+    },
+    "clipboard": {
+        "max_size": 50000,
+        "ignore_empty": true,
+        "ignore_unchanged": true
+    },
+    "sheet": {
+        "max_entries": 1000,
+        "auto_cleanup": true,
+        "cleanup_threshold": 900
+    },
+    "sync": {
+        "allowed_hostnames": [],
+        "excluded_apps": [
+            "KeePassXC",
+            "password",
+            "vault"
+        ],
+        "conflict_resolution": "newest"
+    },
+    "security": {
+        "encrypt_sensitive": false
+    }
+}

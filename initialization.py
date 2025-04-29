@@ -143,7 +143,7 @@ def check_and_reset_sheet():
             if len(first_row) < 2 or first_row[1].lower() != "date-time":
                 needs_reset = True
             # Check C1 for "system info"
-            if len(first_row) < 3 or first_row[2].lower() != "system info":
+            if len(first_row) < 3 or first_row[2].lower() != "system":
                 needs_reset = True
         
         if needs_reset:
@@ -161,7 +161,7 @@ def check_and_reset_sheet():
             
             # Write header row with expected values
             body = {
-                'values': [['clipboard', 'date-time', 'system info']]
+                'values': [['clipboard', 'date-time', 'system']]
             }
             sheets_service.spreadsheets().values().update(
                 spreadsheetId=spreadsheet_id, range="Sheet1!A1:C1",
