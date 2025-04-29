@@ -119,3 +119,129 @@ class ClipboardDaemon:
         logger.info("Stopping clipboard daemon")
         self.running = False
     
+    def _monitor_local_clipboard(self, interval):
+        """Monitor local clipboard for changes and upload to cloud."""
+        logger.info("Starting local clipboard monitor thread")
+        self.last_local_clipboard = pyperclip.paste() or ""
+        
+        while self.running:
+            try:
+                # Skip if we're currently syncing from cloud to local
+                if self.syncing_cloud_to_local:
+                    time.sleep(interval)
+                    continue
+                
+                current_clipboard = pyperclip.paste() or ""
+                
+                # Check if clipboard changed
+                if current_clipboard != self.last_local_clipboard:
+                    logger.info(f"Local clipboard changed (length: {len(current_clipboard)})")
+                    
+                    # Check if we should ignore empty clipboard content
+                    if not current_clipboard and self.config.get("clipboard", {}).get("ignore_empty", True):
+                        logger.info("Empty clipboard content, ignoring")
+                    # Check if we should ignore unchanged clipboard content
+                    elif current_clipboard == self.last_cloud_clipboard:
+                        logger.info("Clipboard content is the same as cloud, ignoring")
+                    else:
+                        # Upload to Google Sheets
+                        from datetime import datetime
+                        import socket
+                        
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        system_info = f"Host: {socket.gethostname()} | OS: {platform.platform()}"
+                        
+                        # Truncate if too long
+                        max_size = self.config.get("clipboard", {}).get("max_size", 50000)
+                        if len(current_clipboard) > max_size:
+                            logger.warning(f"Clipboard content too long ({len(current_clipboard)} bytes), truncating to {max_size}")
+                            current_clipboard = current_clipboard[:max_size] + "... (truncated)"
+                        
+                        # Upload to Google Sheets
+                        try:
+                            add_clipboard_entry(current_clipboard, timestamp, system_info)
+                            logger.info("Uploaded clipboard content to Google Sheets")
+                            
+                            # Update last cloud clipboard
+                            self.last_cloud_clipboard = current_clipboard
+                        except Exception as e:
+                            logger.error(f"Failed to upload clipboard to Google Sheets: {e}")
+                    
+                    # Update last local clipboard
+                    self.last_local_clipboard = current_clipboard
+                
+                time.sleep(interval)
+            except Exception as e:
+                logger.error(f"Error in local clipboard monitor: {e}")
+                time.sleep(interval)
+    
+    def _monitor_cloud_clipboard(self, interval):
+        """Monitor cloud clipboard for changes and download to local."""
+        logger.info("Starting cloud clipboard monitor thread")
+        
+        while self.running:
+            try:
+                # Get the latest clipboard entry from Google Sheets
+                from initialization import sheets_service, spreadsheet_id
+                
+                if not sheets_service or not spreadsheet_id:
+                    logger.error("Google Sheets service not initialized")
+                    time.sleep(interval)
+                    continue
+                
+                # Get the latest entry (row 2)
+                range_name = "Sheet1!A2:A2"  # Cell A2 (first data row)
+                result = sheets_service.spreadsheets().values().get(
+                    spreadsheetId=spreadsheet_id, range=range_name).execute()
+                values = result.get('values', [])
+                
+                if values and values[0]:
+                    cloud_clipboard = values[0][0]
+                    
+                    # Check if cloud clipboard changed
+                    if cloud_clipboard != self.last_cloud_clipboard:
+                        logger.info(f"Cloud clipboard changed (length: {len(cloud_clipboard)})")
+                        
+                        # Check if different from local clipboard
+                        if cloud_clipboard != self.last_local_clipboard:
+                            logger.info("Updating local clipboard from cloud")
+                            
+                            # Set flag to prevent local monitor from uploading this change back
+                            self.syncing_cloud_to_local = True
+                            
+                            # Update local clipboard
+                            pyperclip.copy(cloud_clipboard)
+                            self.last_local_clipboard = cloud_clipboard
+                            
+                            # Wait a bit to ensure clipboard update is registered
+                            time.sleep(0.5)
+                            
+                            # Reset flag
+                            self.syncing_cloud_to_local = False
+                        
+                        # Update last cloud clipboard
+                        self.last_cloud_clipboard = cloud_clipboard
+                
+                time.sleep(interval)
+            except Exception as e:
+                logger.error(f"Error in cloud clipboard monitor: {e}")
+                time.sleep(interval)
+
+
+
+if __name__ == "__main__":
+    # Register signal handlers
+    # signal.signal(signal.SIGINT, signal_handler)
+    # signal.signal(signal.SIGTERM, signal_handler)
+    
+    # Create and start daemon
+    daemon = ClipboardDaemon()
+    daemon.start()
+    
+    try:
+        # Keep main thread alive
+        while daemon.running:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        logger.info("Keyboard interrupt received")
+        daemon.stop()
