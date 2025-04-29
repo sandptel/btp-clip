@@ -1,5 +1,6 @@
 import os.path
 import json
+import datetime
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -68,6 +69,101 @@ def create_new_spreadsheet(service):
     return spreadsheet_id
 
 
+def check_and_reset_sheet(service, spreadsheet_id):
+    """
+    Checks if the header row contains expected values and resets the sheet if not.
+    Expected values: A1="clipboard", B1="date-time", C1="system info"
+    
+    Args:
+        service: Authenticated Google Sheets service object
+        spreadsheet_id: ID of the spreadsheet to check and reset
+    """
+    try:
+        # Check if the spreadsheet exists, if not create it
+        try:
+            # Try to get spreadsheet info to check if it exists
+            service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+        except HttpError as err:
+            if err.resp.status == 404:
+                # Spreadsheet doesn't exist, create a new one
+                print("Spreadsheet not found. Creating a new spreadsheet...")
+                spreadsheet = {
+                    'properties': {
+                        'title': 'Clipboard History'
+                    },
+                    'sheets': [{
+                        'properties': {
+                            'title': 'Sheet1'
+                        }
+                    }]
+                }
+                spreadsheet = service.spreadsheets().create(body=spreadsheet).execute()
+                spreadsheet_id = spreadsheet.get('spreadsheetId')
+                print(f"Created new spreadsheet with ID: {spreadsheet_id}")
+            else:
+                raise  # Re-raise if it's not a 404 error
+
+        # Now read the first row to check headers
+        range_name = "Sheet1!A1:C1"
+        
+        try:
+            result = service.spreadsheets().values().get(
+                spreadsheetId=spreadsheet_id, range=range_name).execute()
+            values = result.get('values', [])
+        except HttpError:
+            # If there's any error, assume we need to reset
+            values = []
+        
+        # Check if the first row contains expected headers
+        needs_reset = False
+        
+        if not values:
+            # No data exists, needs reset
+            needs_reset = True
+        else:
+            first_row = values[0]
+            # Check A1 for "clipboard"
+            if len(first_row) < 1 or first_row[0].lower() != "clipboard":
+                needs_reset = True
+            # Check B1 for "date-time"  
+            if len(first_row) < 2 or first_row[1].lower() != "date-time":
+                needs_reset = True
+            # Check C1 for "system info"
+            if len(first_row) < 3 or first_row[2].lower() != "system info":
+                needs_reset = True
+        
+        if needs_reset:
+            print("Header row is not correctly set up. Resetting sheet...")
+            
+            # Clear all data from the sheet
+            try:
+                clear_range = "Sheet1"
+                service.spreadsheets().values().clear(
+                    spreadsheetId=spreadsheet_id, range=clear_range,
+                    body={}).execute()
+            except HttpError:
+                # If clear fails, we'll overwrite headers anyway
+                pass
+            
+            # Write header row with expected values
+            body = {
+                'values': [['clipboard', 'date-time', 'system info']]
+            }
+            service.spreadsheets().values().update(
+                spreadsheetId=spreadsheet_id, range="Sheet1!A1:C1",
+                valueInputOption="RAW", body=body).execute()
+            
+            print("Sheet has been reset with proper headers.")
+            return spreadsheet_id, True  # Return the ID and reset status
+        else:
+            print("Sheet headers are correctly set up.")
+            return spreadsheet_id, False  # Return the ID and reset status
+            
+    except HttpError as err:
+        print(f"An error occurred while checking/resetting sheet: {err}")
+        raise
+
+
 def main():
     """Connect to Google Sheets API and read/create a spreadsheet."""
     try:
@@ -80,7 +176,13 @@ def main():
             spreadsheet_id = create_new_spreadsheet(service)
             save_spreadsheet_id(spreadsheet_id)
         
-        # Read data from the sheet
+        # Call the updated function to check and reset if needed
+        spreadsheet_id, was_reset = check_and_reset_sheet(service, spreadsheet_id)
+        
+        # Example usage of add_clipboard
+        # Uncomment to test:
+        # add_clipboard(service, spreadsheet_id, "hello world")
+        
         sheet = service.spreadsheets()
         result = sheet.values().get(spreadsheetId=spreadsheet_id,
                                     range=DEFAULT_RANGE_NAME).execute()
